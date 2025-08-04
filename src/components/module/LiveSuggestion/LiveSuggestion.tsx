@@ -22,13 +22,13 @@ const LiveSuggestion = ({query, onSelect} : ILiveSuggestion) => {
             {!loading && error.isError && <p className="text-lg text-gray-300 text-center">{error.errorMsg}</p>}
             
             {/* Render if no result */}
-            {!loading && result.length === 0 && <p className="text-lg text-gray-500 text-center">No users found.</p>}
+            {!loading && result.length === 0 && !error.isError && <p className="text-lg text-gray-500 text-center">No users found.</p>}
 
             {/* Expected render */}
             {!loading && result.length > 0 &&
                 <ul className="w-full">
                     {result.map((user) => (
-                        <li className="w-full" key={`user-${user.id}`}>
+                        <li className="w-full cursor-pointer" key={`user-${user.id}`}>
                             <CustomOption
                                 username={user.username}
                                 onSelect={onSelect}

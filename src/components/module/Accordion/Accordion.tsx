@@ -11,7 +11,7 @@ interface IAccordion extends IUsernameResult {
 
 const LoadingFallback = ({isActive} : {isActive: boolean}) => {
     return(
-        <div className={`w-full flex bg-gray-600 justify-between overflow-hidden ${isActive ? `max-h-[120px] p-4` : 'max-h-0 px-0'}`}>
+        <div className={`w-full flex bg-gray-600 items-center justify-center overflow-hidden ${isActive ? `max-h-[120px] p-4` : 'max-h-0 px-0'}`}>
             <Loading />
         </div>
     )
@@ -19,7 +19,7 @@ const LoadingFallback = ({isActive} : {isActive: boolean}) => {
 
 const ErrorFallback = ({errorMsg, isActive} : {errorMsg: string, isActive: boolean}) => {
     return(
-        <div className={`w-full flex bg-gray-600 justify-between overflow-hidden ${isActive ? `max-h-[120px] p-4` : 'max-h-0 px-0'}`}>
+        <div className={`w-full flex bg-gray-600 items-center justify-center overflow-hidden ${isActive ? `max-h-[120px] p-4` : 'max-h-0 px-0'}`}>
             <p className="text-lg text-gray-300 text-center">{errorMsg}</p>
         </div>
     )
@@ -27,7 +27,7 @@ const ErrorFallback = ({errorMsg, isActive} : {errorMsg: string, isActive: boole
 
 const NoResultFallback = ({isActive} : {isActive: boolean}) => {
     return(
-        <div className={`w-full flex bg-gray-600 justify-between overflow-hidden ${isActive ? `max-h-[120px] p-4` : 'max-h-0 px-0'}`}>
+        <div className={`w-full flex bg-gray-600 items-center justify-center overflow-hidden ${isActive ? `max-h-[120px] p-4` : 'max-h-0 px-0'}`}>
             <p className="text-lg text-gray-300 text-center">No Repositories Found.</p>
         </div>
     )
@@ -44,7 +44,7 @@ const Accordion = ({onClick, activeAccordion, username, id, repoUrl} : IAccordio
         >
             <button
                 type="button"
-                className={`w-full flex p-4 items-center justify-between ${activeAccordion === identifier ? 'bg-gray-950' : 'bg-gray-950/50'} text-lg font-medium text-white`}
+                className={`w-full flex p-4 items-center justify-between ${activeAccordion === identifier ? 'bg-gray-950' : 'bg-gray-950/50'} text-lg font-medium text-white cursor-pointer`}
                 onClick={onClick}
             >
                 {username}
