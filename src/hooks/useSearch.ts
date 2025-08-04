@@ -15,7 +15,7 @@ const useSearch = (query: string, page: number = 1) => {
         try {
             const res = await axios.get<IGitHubSearchResponse>(`https://api.github.com/search/users?q=${query}+in:login&per_page=5&page=${page}`);
             const data = res.data.items;
-            const formatted: IUsernameResult[] = data.map((acc : IGithubUser) => ({username: acc.login, repoUrl: acc.url, id: acc.id}));
+            const formatted: IUsernameResult[] = data.map((acc : IGithubUser) => ({username: acc.login, repoUrl: acc.repos_url, id: acc.id}));
 
             setResult(formatted);
         } catch (error) {

@@ -29,8 +29,8 @@ const LiveSearch = () => {
     }
 
     const handleOnBlur = () => {
+        if(liveIsActive) return;
         setSearchIsActive(false);
-        setLiveIsActive(false);
     }
 
     const handleReset = () => {

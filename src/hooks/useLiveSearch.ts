@@ -23,7 +23,7 @@ const useLiveSearch = (query: string) => {
 
             const formatted: IUsernameResult[] = data.map((user) => ({
                 username: user.login,
-                repoUrl: user.url,
+                repoUrl: user.repos_url,
                 id: user.id
             }));
 

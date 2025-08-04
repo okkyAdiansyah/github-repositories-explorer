@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import Loading from "@components/ui/Loading/Loading";
 import LiveSearch from "@components/module/LiveSearch/LiveSearch";
 import useSearch from "@hooks/useSearch";
+import SearchResult from "@components/module/SearchResult/SearchResult";
 
 const Search = () => {
     const [ params ] = useSearchParams();
@@ -26,11 +27,7 @@ const Search = () => {
 
                 {/* Expected render */}
                 {!loading && result.length > 0 &&
-                    <div>
-                        {result.map((user) => (
-                            <p key={`user-${user.id}`}>{user.username}</p>
-                        ))}
-                    </div>
+                    <SearchResult users={result} />
                 }
             </div>
         </div>
