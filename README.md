@@ -296,4 +296,5 @@ export default useSearch;
 Although this three custom hooks has similarity, but the purpose behind it is different. It could be refactored into better and simple hooks in the future.
 
 - Handling search via search param instead of state
+
 This is purely because its what a real-world application would do. Also its persist between reload and offering capabilities to back/forward navigation
