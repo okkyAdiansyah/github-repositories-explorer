@@ -6,6 +6,7 @@ import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: 'https://okkyadiansyah.github.io/github-repositories-explorer/',
   plugins: [
     react(),
     tailwindcss()
