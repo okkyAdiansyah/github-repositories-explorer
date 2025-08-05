@@ -12,7 +12,10 @@
       "@lib/*" : ["src/lib/*"],
       "@utils/*" : ["src/utils/*"]
     },
-    "types": ["@vitest/browser/matchers"]
+    "types": ["@vitest/browser/matchers", "node"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
   },
   
 }
