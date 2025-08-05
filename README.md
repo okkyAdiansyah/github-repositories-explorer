@@ -13,7 +13,7 @@ This project is build to showcased my expertise in creating React-Typescript web
 
 ## REST API
 
-In this project, the api that were used is [Github API]('https://developer.github.com/v3/').
+In this project, the api that were used is [Github API](https://developer.github.com/v3/).
 
 ## Installation
 
@@ -40,7 +40,7 @@ Run this command on your terminal :
 npm run dev
 ```
 This will run a local development server and open the application in your browser.
-If the browser did not open automatically, navigate to this [http://localhost:5173/]('http://localhost:5173/')
+If the browser did not open automatically, navigate to this [http://localhost:5173/](http://localhost:5173/)
 
 ## Testing
 
