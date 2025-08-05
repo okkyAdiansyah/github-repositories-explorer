@@ -18,10 +18,10 @@ const useSearch = (query: string, page: number = 1) => {
             const formatted: IUsernameResult[] = data.map((acc : IGithubUser) => ({username: acc.login, repoUrl: acc.repos_url, id: acc.id}));
 
             setResult(formatted);
-        } catch (error) {
+        } catch {
             setError({
                 isError: true,
-                errorMsg: (error as Error).message
+                errorMsg: 'Something went wrong! Please try again.'
             })
         } finally {
             setLoading(false);

@@ -28,10 +28,10 @@ const useLiveSearch = (query: string) => {
             }));
 
             setResult(formatted ?? []);
-        } catch (error) {
+        } catch {
             setError({
                 isError: true,
-                errorMsg: (error as Error).message
+                errorMsg: 'Something went wrong! Please try again.'
             })
         } finally {
             setLoading(false);

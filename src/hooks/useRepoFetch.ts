@@ -30,10 +30,10 @@ const useRepoFetch = (url: string, shouldFetch: boolean) => {
 
             setResult(formatted ?? []);
             hasFetched.current = true;
-        } catch (error) {
+        } catch {
             setError({
                 isError: true,
-                errorMsg: (error as Error).message
+                errorMsg: 'Something went wrong! Please try again.'
             })
         } finally {
             setLoading(false);
