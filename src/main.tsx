@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Router basename='https://okkyadiansyah.github.io/github-repositories-explorer/'>
+    <Router basename='/github-repositories-explorer/'>
       <App />
     </Router>
   </StrictMode>,
