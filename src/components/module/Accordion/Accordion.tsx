@@ -1,7 +1,9 @@
 import AccordionItem from "@components/ui/AccordionItem/AccordionItem";
+import ErrorHandler from "@components/ui/ErrorHandler/ErrorHandler";
 import Loading from "@components/ui/Loading/Loading";
-import useRepoFetch from "@hooks/useRepoFetch";
-import type { IUsernameResult } from "@lib/types/resultTypes";
+import useFetchAPI from "@hooks/useFetchAPI";
+import { fetchRepo } from "@lib/services/fetchService";
+import { type IUserRepo, type IUsernameResult } from "@lib/types/resultTypes";
 import { ChevronUp } from "lucide-react";
 
 interface IAccordion extends IUsernameResult {
@@ -9,34 +11,49 @@ interface IAccordion extends IUsernameResult {
     activeAccordion: string,
 }
 
+const AccordionFallbackWrapper = ({children, isActive} : {children: React.ReactNode, isActive: boolean}) => {
+    return(
+        <div
+            className={`w-full flex bg-gray-600 items-center justify-center overflow-hidden ${isActive ? `max-h-[360px] h-[360px] p-4` : 'max-h-0 px-0'}`}
+        >
+            {children}
+        </div>
+    )
+}
+
 const LoadingFallback = ({isActive} : {isActive: boolean}) => {
     return(
-        <div className={`w-full flex bg-gray-600 items-center justify-center overflow-hidden ${isActive ? `max-h-[120px] p-4` : 'max-h-0 px-0'}`}>
+        <AccordionFallbackWrapper isActive={isActive}>
             <Loading />
-        </div>
+        </AccordionFallbackWrapper>
     )
 }
 
 const ErrorFallback = ({errorMsg, isActive} : {errorMsg: string, isActive: boolean}) => {
     return(
-        <div className={`w-full flex bg-gray-600 items-center justify-center overflow-hidden ${isActive ? `max-h-[120px] p-4` : 'max-h-0 px-0'}`}>
-            <p className="text-lg text-gray-300 text-center">{errorMsg}</p>
-        </div>
+        <AccordionFallbackWrapper isActive={isActive}>
+            <ErrorHandler errorMsg={errorMsg} />
+        </AccordionFallbackWrapper>
     )
 }
 
 const NoResultFallback = ({isActive} : {isActive: boolean}) => {
     return(
-        <div className={`w-full flex bg-gray-600 items-center justify-center overflow-hidden ${isActive ? `max-h-[120px] p-4` : 'max-h-0 px-0'}`}>
+        <AccordionFallbackWrapper isActive={isActive}>
             <p className="text-lg text-gray-300 text-center">No Repositories Found.</p>
-        </div>
+        </AccordionFallbackWrapper>
     )
 }
 
 const Accordion = ({onClick, activeAccordion, username, id, repoUrl} : IAccordion) => {
-    const identifier = `user-${id}`;
-    const shouldFetch = activeAccordion === identifier;
-    const {result, loading, error} = useRepoFetch(repoUrl, shouldFetch);
+    const isActive = activeAccordion === `user-${id}`;
+    const {result, loading, error} = useFetchAPI<IUserRepo>({
+        shouldFetch: isActive,
+        queryKey: repoUrl,
+        fetchService: fetchRepo,
+        cached: true
+    })
+    const resultIsEmpty = !loading && result.length === 0;
     
     return(
         <div
@@ -44,26 +61,22 @@ const Accordion = ({onClick, activeAccordion, username, id, repoUrl} : IAccordio
         >
             <button
                 type="button"
-                className={`w-full flex p-4 items-center justify-between ${activeAccordion === identifier ? 'bg-gray-950' : 'bg-gray-950/50'} text-lg font-medium text-white cursor-pointer`}
+                className={`w-full flex p-4 items-center justify-between ${isActive ? 'bg-gray-950' : 'bg-gray-950/50'} text-lg font-medium text-white cursor-pointer`}
                 onClick={onClick}
             >
                 {username}
                 <ChevronUp
                     size={24}
                     color="#ffffff"
-                    className={`transition-transform duration-500 ease-out ${activeAccordion === identifier ? 'rotate-180' : 'rotate-0'}`}
+                    className={`transition-transform duration-500 ease-out ${isActive ? 'rotate-180' : 'rotate-0'}`}
                 />
             </button>
-            {/* Render if Loading */}
-            {loading && <LoadingFallback isActive={activeAccordion === identifier} />}
-            {/* Render if error is happening */}
-            {!loading && error.isError && <ErrorFallback isActive={activeAccordion === identifier} errorMsg={error.errorMsg} />}
-            {/* Render if no result */}
-            {!loading && result.length === 0 && <NoResultFallback isActive={activeAccordion === identifier} />}
-            {/* Expected render */}
-            {!loading && result.length > 0 &&
+            {loading && <LoadingFallback isActive={isActive} />}
+            {error.isError && <ErrorFallback isActive={isActive} errorMsg={error.errorMsg} />}
+            {resultIsEmpty ? 
+                <NoResultFallback isActive={isActive} /> :                 
                 <ul
-                    className={`w-full flex flex-col transition-all duration-500 ease-out ${activeAccordion === identifier ? `max-h-[360px] overflow-y-scroll` : 'max-h-0 overflow-hidden'}`}
+                    className={`w-full flex flex-col transition-all duration-500 ease-out ${isActive ? `max-h-[360px] overflow-y-scroll` : 'max-h-0 overflow-hidden'}`}
                 >
                     {result.map((user) => (
                         <li

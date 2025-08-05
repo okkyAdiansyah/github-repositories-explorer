@@ -1,43 +1,51 @@
-import type React from "react";
-import CustomOption from "@components/ui/CustomOption/CustomOption";
 import Loading from "@components/ui/Loading/Loading";
-import useLiveSearch from "@hooks/useLiveSearch";
+import { type TError } from "@hooks/useLiveSearch";
+import SearchHistory from "../SearchHistory/SearchHistory";
+import ErrorHandler from "@components/ui/ErrorHandler/ErrorHandler";
 
 interface ILiveSuggestion {
-    query: string,
-    onSelect: (e: React.MouseEvent<HTMLButtonElement>) => void
+    loading: boolean,
+    error: TError,
+    children: React.ReactNode
 }
 
-const LiveSuggestion = ({query, onSelect} : ILiveSuggestion) => {
-    const {result, loading, error} = useLiveSearch(query);
-
+const LiveSuggestionWrapper = ({children} : {children: React.ReactNode}) => {
     return(
         <div
-            className="absolute w-full h-auto bg-gray-700 z-[2] bottom-0 translate-y-[calc(100%+8px)] flex items-center justify-center py-4"
+            className="absolute w-full h-auto bg-gray-700 z-[2] bottom-0 translate-y-[calc(100%+8px)] flex flex-col py-4"
         >
-            {/* Render if Loading */}
-            {loading && <Loading />}
-
-            {/* Render if error is happening */}
-            {!loading && error.isError && <p className="text-lg text-gray-300 text-center">{error.errorMsg}</p>}
-            
-            {/* Render if no result */}
-            {!loading && result.length === 0 && !error.isError && <p className="text-lg text-gray-500 text-center">No users found.</p>}
-
-            {/* Expected render */}
-            {!loading && result.length > 0 &&
-                <ul className="w-full">
-                    {result.map((user) => (
-                        <li className="w-full cursor-pointer" key={`user-${user.id}`}>
-                            <CustomOption
-                                username={user.username}
-                                onSelect={onSelect}
-                            />
-                        </li>     
-                    ))}
-                </ul>
-            }
+            <SearchHistory />
+            {children}
         </div>
+    )
+}
+
+const ErrorFallback = ({errorMsg} : {errorMsg: string}) => {
+    return(
+        <LiveSuggestionWrapper>
+            <ErrorHandler errorMsg={errorMsg} />
+        </LiveSuggestionWrapper>
+    )
+}
+
+const LoadingFallback = () => {
+    return(
+        <LiveSuggestionWrapper>
+            <Loading />
+        </LiveSuggestionWrapper>
+    )
+}
+
+const LiveSuggestion = ({loading, error, children} : ILiveSuggestion) => {
+
+    if(loading) return <LoadingFallback />
+
+    if(error.isError) return <ErrorFallback errorMsg={error.errorMsg} />
+
+    return(
+        <LiveSuggestionWrapper>
+            {children}
+        </LiveSuggestionWrapper>
     )
 }
 

@@ -11,7 +11,7 @@ const CustomOption = ({username, onSelect} : ICustomOption) => {
         <button 
             type="button"
             onClick={onSelect}
-            className="w-full p-4 flex items-center justify-between text-base font-normal text-gray-300"
+            className="w-full p-4 flex items-center justify-between text-base font-normal text-gray-300 cursor-pointer"
         >
             {username}
             <ExternalLink

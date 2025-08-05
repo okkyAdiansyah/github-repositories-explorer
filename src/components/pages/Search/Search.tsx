@@ -10,7 +10,7 @@ const Search = () => {
     const {loading, result, error} = useSearch(query as string, 1);
 
     return(
-        <div className="w-full h-auto min-h-screen flex flex-col items-center justify-start gap-y-2 py-8">
+        <div className="w-full h-auto min-h-screen overflow-y-auto flex flex-col items-center justify-start gap-y-2 py-8">
             <div className="w-full flex flex-col items-center justify-center gap-y-4">
                 <LiveSearch />
                 <span className="text-base font-normal text-white">

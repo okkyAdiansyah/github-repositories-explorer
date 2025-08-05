@@ -9,7 +9,7 @@ const AccordionItem = ({
     watchersCount} : IUserRepo) => {
     return(
         <div
-            className="w-full h-[120px] flex bg-gray-600 justify-between p-4"
+            className="w-full h-[120px] flex bg-gray-600 justify-between p-4 cursor-pointer"
             id={`${id}`}
         >
             <a href={repoUrl} className="flex flex-col">
