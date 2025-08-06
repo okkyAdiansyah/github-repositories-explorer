@@ -1,5 +1,9 @@
 # Github Repositories Explorer
 
+```html
+<img src="./public/Test.jpg" alt="App" width="240" height="720" />
+```
+
 This project is build to showcased my expertise in creating React-Typescript web application. By leveraging a modular component design, separating ui and feature module. Also by building custom hooks to handle complex bussines logic.
 
 ## Tech Stack
@@ -54,10 +58,9 @@ The testing directory is located at
 |
 | ├──__test__/
 | |
-| | ├── unit/
-| | ├── integration/
+| | ├── components/
 ```
-The test is separated in different directory based on its test concern.
+The test is only covering the module components because it can cover most of the component.
 To write your own test, please follow this flow to manage its test based on render and event test
 ```js
 describe('<Your Component />', () => {
@@ -98,6 +101,8 @@ This app was developed using modular component approach, separating between plai
 
 Custom hooks was created to handle complex bussines logic or to reused it on other component that might need it.
 
+Services is storing axios service for fetching
+
 Complex and reused type and interference are exported from its own directory
 
 ```
@@ -112,15 +117,20 @@ Complex and reused type and interference are exported from its own directory
 │   ├── lib/
 │   │   └── types
 │   │   │   └── ...
+│   │   │
+│   │   └── services
+│   │   │   └── ...
 │   ├── hooks/
 │   │   ├── ...
+|   |   |
+│   ├── utils/
+│   │   │   └── ...
 ```
 
 ## Features
 
 - Live Search Suggestion : When user typed on the search bar, it will showed 5 username that close to what user is typed
 - Recent Search History : Saved everytime user search, can be removed if users want
-- Saved Username : User can choose to save or unsave the username so they wont need to search it again
 
 ## Technical Decision
 
@@ -293,7 +303,84 @@ const useSearch = (query: string, page: number = 1) => {
 
 export default useSearch;
 ```
-Although this three custom hooks has similarity, but the purpose behind it is different. It could be refactored into better and simple hooks in the future.
+After considering the rendundancies in 70% of this custom hooks. I was considered to refactor it into one single hook:
+```js
+const reducer = (state: TState, action: TAction) => {
+    switch(action.type){
+        case 'ADD_HISTORY': {
+            const query = action.payload.trim();
+
+            if(!query) return state;
+
+            const noDupes = state.filter((q) => q !== query);
+            const updated = [query, ...noDupes];
+
+            return updated.slice(0, MAX_HISTORY);
+        }
+
+        case 'REMOVE_HISTORY': {
+            return state.filter((q) => q !== action.payload);
+        }
+
+        default: {
+            return state;
+        }
+    }
+}
+
+const useSearchQuery = () => {
+    const [histories, dispatch] = useReducer(
+        reducer,
+        [],
+        () => {
+            const saved = localStorage.getItem('history');
+
+            return saved ? JSON.parse(saved) : []
+        }
+    );
+    
+    const pathname = useLocation().pathname;
+    const navigate = useNavigate();
+    const [ params, setParams ] = useSearchParams();
+    const query = params.get('q');
+
+    const handleSearchQuery = useCallback((q: string) => {
+        if(pathname !== '/search'){
+            navigate(`/search?q=${encodeURIComponent(q)}`);
+        } else {
+            setParams((prev) => {
+                prev.set('q', q);
+                return prev;
+            })
+            dispatch({type: 'ADD_HISTORY', payload: q})
+        }
+    }, [pathname, navigate, setParams]);
+
+    const handleRemoveHistory = useCallback((q: string) => {
+        dispatch({type: 'REMOVE_HISTORY', payload: q});
+    }, []);
+
+    const handleResetQuery = useCallback(() => {
+        if(pathname === '/search') setParams((prev) => {
+                prev.set('q', '');
+                return prev;
+            });
+    }, [setParams, pathname]);
+
+    useEffect(() => {
+        localStorage.setItem('history', JSON.stringify(histories));
+    }, [histories])
+
+    return {
+        query,
+        histories,
+        pathname,
+        handleSearchQuery,
+        handleResetQuery,
+        handleRemoveHistory
+    }
+}
+```
 
 - Handling search via search param instead of state
 

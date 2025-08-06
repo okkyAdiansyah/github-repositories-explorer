@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "@components/ui/Button/Button";
 import SearchInput from "@components/ui/SearchInput/SearchInput";
-import LiveSuggestion from "../LiveSuggestion/LiveSuggestion";
+import LiveSuggestion from "../../ui/LiveSuggestion/LiveSuggestion";
 import useSearchQuery from "@hooks/useSearchQuery";
 import CustomOption from "@components/ui/CustomOption/CustomOption";
 import useFetchAPI from "@hooks/useFetchAPI";

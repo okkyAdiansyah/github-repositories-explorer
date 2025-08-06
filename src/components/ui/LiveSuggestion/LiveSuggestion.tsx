@@ -1,6 +1,6 @@
 import Loading from "@components/ui/Loading/Loading";
 import { type TError } from "@hooks/useLiveSearch";
-import SearchHistory from "../SearchHistory/SearchHistory";
+import SearchHistory from "../../module/SearchHistory/SearchHistory";
 import ErrorHandler from "@components/ui/ErrorHandler/ErrorHandler";
 
 interface ILiveSuggestion {
