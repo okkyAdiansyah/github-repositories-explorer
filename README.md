@@ -1,7 +1,7 @@
 # Github Repositories Explorer
 
 ```html
-<img src="./public/Test.jpg" alt="App" width="240" height="720" />
+<img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/public/Test.jpg" alt="App Screenshot" width="240" height="720" />
 ```
 
 This project is build to showcased my expertise in creating React-Typescript web application. By leveraging a modular component design, separating ui and feature module. Also by building custom hooks to handle complex bussines logic.
