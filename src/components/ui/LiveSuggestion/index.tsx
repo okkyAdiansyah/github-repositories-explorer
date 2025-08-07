@@ -13,7 +13,7 @@ export interface ILiveSuggestionProps {
 const LiveSuggestionWrapper = ({children} : {children: React.ReactNode}) => {
     return(
         <div
-            className="absolute w-full h-auto bg-gray-700 z-[2] bottom-0 translate-y-[calc(100%+8px)] flex flex-col py-4"
+            className="w-full h-auto flex flex-col py-4"
         >
             {children}
         </div>

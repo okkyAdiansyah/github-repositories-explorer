@@ -1,4 +1,5 @@
 import { History, X } from "lucide-react";
+import Option from "@components/ui/Option";
 
 export interface IHistoryItemsProps {
     username: string,
@@ -8,9 +9,7 @@ export interface IHistoryItemsProps {
 
 const HistoryItem : React.FC<IHistoryItemsProps> = ({username, onSelect, onRemove}) => {
     return(
-        <div
-            className="w-full flex items-center p-4 hover:bg-gray-950"
-        >
+        <Option>
             <button 
                 type="button"
                 className="flex items-center justify-between grow text-base font-normal text-gray-300 cursor-pointer"
@@ -32,7 +31,7 @@ const HistoryItem : React.FC<IHistoryItemsProps> = ({username, onSelect, onRemov
                     color="#9e9b9b"
                 />
             </button>
-        </div>
+        </Option>
     )
 }
 

@@ -4,7 +4,7 @@ export interface IOptionProps {
 
 const Option : React.FC<IOptionProps> = ({children}) => {
     return(
-        <div className="w-full p-4 flex items-center justify-between">
+        <div className="w-full p-4 flex items-center justify-between cursor-pointer hover:bg-gray-950">
             {children}
         </div>
     )

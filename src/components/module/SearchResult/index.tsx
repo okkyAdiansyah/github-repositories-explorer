@@ -1,8 +1,8 @@
-import type { IUsernameResult } from "@lib/types/resultTypes";
 import { useState } from "react";
 import Accordion from "../Accordion";
+import type { IResponseUsername } from "@lib/types/response";
 
-const SearchResult = ({users} : {users: IUsernameResult[]}) => {
+const SearchResult = ({users} : {users: IResponseUsername[]}) => {
     const [activeAccordion, setActiveAccordion] = useState<string>(`user-${users[0].id}`);
 
     const handleToggleAccordion = (target: string) => {

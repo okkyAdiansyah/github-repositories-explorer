@@ -24,7 +24,7 @@ const AccordionWrapper = ({
 }) => {
     return(
         <div
-            className={`w-full flex bg-gray-600 items-center justify-center overflow-hidden ${isActive ? `max-h-[360px] min-h-[360px] p-4` : 'max-h-0 px-0'}`}
+            className={`w-full flex flex-col bg-gray-600 items-center justify-center`}
         >
             <AccordionHead
                 isActive={isActive}
@@ -52,7 +52,9 @@ const Accordion : React.FC<IAccordionProps> = ({onClick, activeAccordion, userna
             username={username}
             onClick={onClick}
         >
-            <Loading />
+            <div className={`w-full flex flex-col items-center justify-center transition-all duration-500 ease-out ${isActive ? `max-h-[360px] h-[240px] p-4` : 'max-h-0 overflow-hidden p-0'}`}>
+                <Loading />
+            </div>
         </AccordionWrapper>
     );
 
@@ -62,7 +64,9 @@ const Accordion : React.FC<IAccordionProps> = ({onClick, activeAccordion, userna
             username={username}
             onClick={onClick}
         >
-            <ErrorHandler errorMsg={error.errorMsg} />
+            <div className={`w-full flex items-center justify-center flex-col transition-all duration-500 ease-out ${isActive ? `max-h-[360px] h-[240px] p-4` : 'max-h-0 overflow-hidden'}`}>
+                <ErrorHandler errorMsg={error.errorMsg} />
+            </div>
         </AccordionWrapper>
     );
 
@@ -72,7 +76,9 @@ const Accordion : React.FC<IAccordionProps> = ({onClick, activeAccordion, userna
             username={username}
             onClick={onClick}
         >
-            <p className="text-lg text-gray-300 text-center">No Repositories Found.</p>
+            <div className={`w-full flex flex-col items-center justify-center transition-all duration-500 ease-out ${isActive ? `max-h-[360px] h-[240px] p-4` : 'max-h-0 overflow-hidden'}`}>
+                <p className="text-lg text-gray-300 text-center">No Repositories Found.</p>
+            </div>
         </AccordionWrapper>
     );
     
