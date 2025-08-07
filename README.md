@@ -3,6 +3,9 @@
 
 This project is build to showcased my expertise in creating React-Typescript web application. By leveraging a modular component design, separating ui and feature module. Also by building custom hooks to handle complex bussines logic.
 
+## Live Preview
+[https://okkyadiansyah.github.io/github-repositories-explorer/](https://okkyadiansyah.github.io/github-repositories-explorer/)
+
 ## Tech Stack
 
 - UI : React-Typescript
