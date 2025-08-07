@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { screen, render, fireEvent } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach, type Mock } from "vitest";
-import LiveSearch from '@components/module/LiveSearch/LiveSearch';
+import LiveSearch from '@components/module/LiveSearch';
 import useSearchQuery from '@hooks/useSearchQuery';
 import useFetchAPI from '@hooks/useFetchAPI';
 

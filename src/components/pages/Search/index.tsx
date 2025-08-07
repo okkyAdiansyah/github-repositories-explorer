@@ -1,13 +1,17 @@
 import { useSearchParams } from "react-router-dom";
-import Loading from "@components/ui/Loading/Loading";
-import LiveSearch from "@components/module/LiveSearch/LiveSearch";
-import useSearch from "@hooks/useSearch";
-import SearchResult from "@components/module/SearchResult/SearchResult";
+import Loading from "@components/ui/Loading";
+import LiveSearch from "@components/module/LiveSearch";
+import SearchResult from "@components/module/SearchResult";
+import useFetchAPI from "@hooks/useFetchAPI";
+import { fetchUsername } from "@lib/services/fetchService";
 
 const Search = () => {
     const [ params ] = useSearchParams();
     const query = params.get('q');
-    const {loading, result, error} = useSearch(query as string, 1);
+    const {loading, result, error} = useFetchAPI({
+        queryKey: query as string,
+        fetchService: fetchUsername,
+    });
 
     return(
         <div className="w-full h-auto min-h-screen overflow-y-auto flex flex-col items-center justify-start gap-y-2 py-8">

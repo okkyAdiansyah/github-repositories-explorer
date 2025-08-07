@@ -1,4 +1,4 @@
-import LiveSearch from "@components/module/LiveSearch/LiveSearch";
+import LiveSearch from "@components/module/LiveSearch";
 
 const Home = () => {
     return(

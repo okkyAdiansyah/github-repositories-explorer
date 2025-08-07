@@ -1,6 +1,6 @@
 import type { IUsernameResult } from "@lib/types/resultTypes";
 import { useState } from "react";
-import Accordion from "../Accordion/Accordion";
+import Accordion from "../Accordion";
 
 const SearchResult = ({users} : {users: IUsernameResult[]}) => {
     const [activeAccordion, setActiveAccordion] = useState<string>(`user-${users[0].id}`);

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { screen, render, fireEvent } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import SearchResult from '@components/module/SearchResult/SearchResult';
+import SearchResult from '@components/module/SearchResult';
 
 vi.mock('@components/module/Accordion/Accordion', () => ({
     default: (props: any) => (

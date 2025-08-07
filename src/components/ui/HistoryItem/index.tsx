@@ -1,20 +1,20 @@
 import { History, X } from "lucide-react";
 
-interface IHistoryItem {
+export interface IHistoryItemsProps {
     username: string,
-    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void,
-    onDelete: (e: React.MouseEvent<HTMLButtonElement>) => void
+    onSelect: (e: React.MouseEvent<HTMLButtonElement>) => void,
+    onRemove: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const HistoryItem = ({username, onClick, onDelete} : IHistoryItem) => {
+const HistoryItem : React.FC<IHistoryItemsProps> = ({username, onSelect, onRemove}) => {
     return(
         <div
-            className="w-full flex items-center p-4"
+            className="w-full flex items-center p-4 hover:bg-gray-950"
         >
             <button 
                 type="button"
                 className="flex items-center justify-between grow text-base font-normal text-gray-300 cursor-pointer"
-                onClick={onClick}
+                onClick={onSelect}
             >
                 {username}
                 <History
@@ -25,7 +25,7 @@ const HistoryItem = ({username, onClick, onDelete} : IHistoryItem) => {
             <button
                 type="button"
                 className="flex items-center justify-center cursor-pointer"
-                onClick={onDelete}
+                onClick={onRemove}
             >
                 <X
                     size={24}

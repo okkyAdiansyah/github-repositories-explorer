@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 type TAction = 
@@ -47,16 +47,20 @@ const useSearchQuery = () => {
     const navigate = useNavigate();
     const [ params, setParams ] = useSearchParams();
     const query = params.get('q');
+    const throttle = useRef<NodeJS.Timeout | null>(null);
 
     const handleSearchQuery = useCallback((q: string) => {
+        dispatch({type: 'ADD_HISTORY', payload: q});
+
         if(pathname !== '/search'){
-            navigate(`/search?q=${encodeURIComponent(q)}`);
+            throttle.current = setTimeout(() => {
+                navigate(`/search?q=${encodeURIComponent(q)}`);
+            }, 100);
         } else {
             setParams((prev) => {
                 prev.set('q', q);
                 return prev;
-            })
-            dispatch({type: 'ADD_HISTORY', payload: q})
+            });
         }
     }, [pathname, navigate, setParams]);
 
@@ -73,6 +77,12 @@ const useSearchQuery = () => {
 
     useEffect(() => {
         localStorage.setItem('history', JSON.stringify(histories));
+
+        return () => {
+            if(throttle.current){
+                clearTimeout(throttle.current);
+            }
+        }
     }, [histories])
 
     return {

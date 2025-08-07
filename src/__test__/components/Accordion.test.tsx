@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { screen, render, fireEvent } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import Accordion from '@components/module/Accordion/Accordion';
+import Accordion from '@components/module/Accordion';
 import useFetchAPI from '@hooks/useFetchAPI';
 import '@testing-library/jest-dom';
 

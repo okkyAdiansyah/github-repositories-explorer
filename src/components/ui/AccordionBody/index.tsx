@@ -1,12 +1,13 @@
-import type { IUserRepo } from "@lib/types/resultTypes";
+import type { IResponseUserRepos } from "@lib/types/response";
 import { Star } from "lucide-react";
 
-const AccordionItem = ({
+const AccordionBody : React.FC<IResponseUserRepos> = ({
     id,
     name,
     description,
     repoUrl,
-    watchersCount} : IUserRepo) => {
+    watchersCount
+}) => {
     return(
         <div
             className="w-full h-[120px] flex bg-gray-600 justify-between p-4 cursor-pointer"
@@ -30,4 +31,4 @@ const AccordionItem = ({
     )
 }
 
-export default AccordionItem;
+export default AccordionBody;

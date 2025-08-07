@@ -1,9 +1,5 @@
-import { useState, useEffect } from "react";
-
-export type TError = {
-    isError: boolean;
-    errorMsg: string;
-}
+import type { IResponseError } from "@lib/types/response";
+import { useState, useEffect, useRef } from "react";
 
 interface IUseFetchAPI<T> {
     shouldFetch?: boolean,
@@ -12,8 +8,6 @@ interface IUseFetchAPI<T> {
     debounceTime?: number
     cached?: boolean
 }
-
-const cache = new Map<string, boolean>();
 
 const useFetchAPI = <T>({
     shouldFetch = true,
@@ -24,10 +18,13 @@ const useFetchAPI = <T>({
 } : IUseFetchAPI<T>) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [result, setResult] = useState<T[]>([]);
-    const [error, setError] = useState<TError>({
+    const [error, setError] = useState<IResponseError>({
         isError: false,
         errorMsg: ''
     });
+    const cache = useRef<Map<string, T[]>>(new Map());
+    const controller = useRef<AbortController | null>(null);
+    const debounce = useRef<NodeJS.Timeout | null>(null);
 
     const fetch = async (queryKey: string) => {
         try {
@@ -35,12 +32,14 @@ const useFetchAPI = <T>({
             setResult(res);
 
             if(cached){
-                cache.set(queryKey, true);
+                cache.current.set(queryKey, res);
             }
         } catch (error) {
+            if (error instanceof Error && error.name === 'AbortError') return;
+
             setError({
                 isError: true,
-                errorMsg: (error as Error).message
+                errorMsg: error instanceof Error ? error.message : String(error)
             })
         } finally {
             setLoading(false);
@@ -53,15 +52,28 @@ const useFetchAPI = <T>({
             return;
         }
 
-        if(!shouldFetch || cache.get(queryKey)) return;
+        if(!shouldFetch) return;
+
+        if(cached && cache.current.has(queryKey)){
+            setResult(cache.current.get(queryKey) ?? []);
+            return;
+        }
+
+        if(debounce.current) clearTimeout(debounce.current);
+
+        if(controller.current) controller.current.abort();
+        const con = new AbortController();
+        controller.current = con;
         
         setLoading(true);
-        const debounce = setTimeout(() => {
+        debounce.current = setTimeout(() => {
             fetch(queryKey);
         }, debounceTime);
 
         return () => {
-            clearTimeout(debounce);
+            if (debounce.current) {
+                clearTimeout(debounce.current);
+            }
         }
 
     }, [queryKey, shouldFetch, debounceTime]);
