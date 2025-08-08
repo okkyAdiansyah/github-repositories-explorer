@@ -6,6 +6,9 @@ This project is build to showcased my expertise in creating React-Typescript web
 ## Live Preview
 [https://okkyadiansyah.github.io/github-repositories-explorer/](https://okkyadiansyah.github.io/github-repositories-explorer/)
 
+## Refactor
+If you want to see how i refactoring code, you can check on the refactor-after branch
+
 ## Tech Stack
 
 - UI : React-Typescript
