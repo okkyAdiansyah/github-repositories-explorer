@@ -47,10 +47,7 @@ const useFetchAPI = <T>({
     }
 
     useEffect(() => {
-        if(!queryKey){
-            setResult([]);
-            return;
-        }
+        if(!queryKey) return;
 
         if(!shouldFetch) return;
 

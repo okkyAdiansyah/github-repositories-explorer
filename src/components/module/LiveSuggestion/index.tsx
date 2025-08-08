@@ -1,13 +1,14 @@
-import Loading from "@components/ui/Loading";
-import ErrorHandler from "@components/ui/ErrorHandler";
-import type { IResponseError, IResponseUsername } from "@lib/types/response";
-import SuggestionItem from "../SuggestionItem";
+import ErrorHandler from "@components/ui/ErrorHandler"
+import Loading from "@components/ui/Loading"
+import useSearchQuery from "@hooks/useSearchQuery"
+import useFetchAPI from "@hooks/useFetchAPI"
+import { fetchUsername } from "@lib/services/fetchService"
+import type { IResponseUsername } from "@lib/types/response"
+import SuggestionItem from "@components/ui/SuggestionItem"
 
 export interface ILiveSuggestionProps {
-    suggestions: IResponseUsername[],
-    onSelect: (q: string) => void,
-    loading: boolean,
-    error: IResponseError
+    searchQuery: string,
+    onSelect: () => void
 }
 
 const LiveSuggestionWrapper = ({children} : {children: React.ReactNode}) => {
@@ -44,26 +45,34 @@ const EmptyFallback = () => {
     )
 }
 
-const LiveSuggestion : React.FC<ILiveSuggestionProps> = ({suggestions, loading, error, onSelect}) => {
-    const suggestionIsEmpty = suggestions.length === 0
+
+const LiveSuggestion : React.FC<ILiveSuggestionProps> = ({searchQuery, onSelect}) => {
+    const { handleSearchQuery } = useSearchQuery();
+    const { result, loading, error } = useFetchAPI<IResponseUsername>({
+        queryKey: searchQuery,
+        fetchService: fetchUsername,
+        debounceTime: 500
+    })
+    const resultIsEmpty = result.length === 0;
 
     if(loading) return <LoadingFallback />
 
     if(error.isError) return <ErrorFallback errorMsg={error.errorMsg} />
 
-    if(suggestionIsEmpty) return <EmptyFallback />
+    if(resultIsEmpty) return <EmptyFallback />
 
     return(
         <LiveSuggestionWrapper>
             <ul className="w-full items-center justify-center">
-                {suggestions.map((item) => (
+                {result.map((item) => (
                     <li
                         key={`item-${item.id}`}
                     >
                         <SuggestionItem 
                             username={item.username}
                             onSelect={() => {
-                                onSelect(item.username)
+                                handleSearchQuery(item.username);
+                                onSelect()
                             }}
                         />
                     </li>

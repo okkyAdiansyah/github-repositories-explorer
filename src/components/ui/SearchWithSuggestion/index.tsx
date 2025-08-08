@@ -1,7 +1,7 @@
 import SearchInput from "@components/ui/SearchInput";
-import Histories from "@components/ui/Histories";
+import Histories from "@components/module/Histories";
 import type { IResponseError, IResponseUsername } from "@lib/types/response";
-import LiveSuggestion from "../LiveSuggestion";
+import LiveSuggestion from "@components/module/LiveSuggestion";
 
 export interface ISearchWithSuggestionProps {
     value: string,
@@ -49,12 +49,7 @@ const SearchWithSuggestion : React.FC<ISearchWithSuggestionProps> = ({
                         onSelect={onSelect}
                         onRemove={onRemove}
                     />
-                    <LiveSuggestion
-                        suggestions={suggestions}
-                        loading={loading}
-                        error={error}
-                        onSelect={onSelect}
-                    />
+                    <LiveSuggestion />
                 </div>
             }
         </div>

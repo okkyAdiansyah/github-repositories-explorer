@@ -1,12 +1,13 @@
 import HistoryItem from "@components/ui/HistoryItem";
+import useSearchQuery from "@hooks/useSearchQuery";
 
 export interface IHistoriesProps {
-    histories: string[],
-    onSelect: (q: string) => void,
-    onRemove: (q: string) => void
+    onSelect: () => void
 }
 
-const Histories : React.FC<IHistoriesProps> = ({histories, onSelect, onRemove}) => {
+const Histories : React.FC<IHistoriesProps> = ({onSelect}) => {
+    const {histories, handleSearchQuery, handleRemoveHistory} = useSearchQuery();
+
     if(histories.length === 0) return null;
 
     return(
@@ -22,8 +23,11 @@ const Histories : React.FC<IHistoriesProps> = ({histories, onSelect, onRemove}) 
                     >
                         <HistoryItem
                             username={q}
-                            onSelect={() => onSelect(q)}
-                            onRemove={() => onRemove(q)}
+                            onSelect={() => {
+                                handleSearchQuery(q);
+                                onSelect()
+                            }}
+                            onRemove={() => handleRemoveHistory(q)}
                         />
                     </li>
                 ))}

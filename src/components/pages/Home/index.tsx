@@ -1,4 +1,4 @@
-import LiveSearch from "@components/module/LiveSearch";
+import SearchForm from "@components/module/SearchForm";
 
 const Home = () => {
     return(
@@ -9,7 +9,7 @@ const Home = () => {
                     Find your favorite user repositories via their username.
                 </h2>
             </section>
-            <LiveSearch />
+            <SearchForm />
         </div>
     )
 }

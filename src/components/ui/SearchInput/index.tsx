@@ -1,11 +1,7 @@
 import { Search, X } from "lucide-react";
 import type { InputHTMLAttributes } from "react";
 
-export interface ISearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
-    onInputReset: (e: React.MouseEvent<HTMLButtonElement>) => void
-}
-
-const SearchInput : React.FC<ISearchInputProps> = ({onInputReset, value, ...rest}) => {
+const SearchInput : React.FC<InputHTMLAttributes<HTMLInputElement>> = ({value, ...rest}) => {
     return(
         <div 
             className={`w-full p-2 flex items-center gap-x-2 bg-transparent rounded-full border-[1px] border-transparent transition-all duration-500 ease-out has-focus:border-white has-focus:shadow-lg has-focus:shadow-white/25`}
@@ -26,7 +22,6 @@ const SearchInput : React.FC<ISearchInputProps> = ({onInputReset, value, ...rest
                 {value &&
                     <button 
                         type="reset"
-                        onClick={onInputReset}
                         className="cursor-pointer"   
                     >
                         <X 
