@@ -7,7 +7,10 @@ This project is build to showcased my expertise in creating React-Typescript web
 [https://okkyadiansyah.github.io/github-repositories-explorer/](https://okkyadiansyah.github.io/github-repositories-explorer/)
 
 ## Refactor
-If you want to see how i refactoring code, you can check on the refactor-after branch
+After submitting, i choose to refactor the code for scalability and improved readability. The refactor include :
+- Decouple 'god' component into smaller component.
+- Stripping complex hook and turn it into reusable custom hooks.
+- Improving semantic by wrapping the input to search form.
 
 ## Tech Stack
 
